@@ -1,0 +1,9 @@
+REST API 
+
+GET - /api/users - fetch all the users  - done
+GET - /api/users/:id - fetch a user with id -done 
+GET - /users - do server side rendering of the users data and send a html document to the browser - done 
+
+POST- /api/users - create a new user
+PATCH - /api/users/:id - update a user with id
+DELETE- /api/users/:id - delete a user with id 
