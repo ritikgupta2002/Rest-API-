@@ -42,8 +42,14 @@ app
     });
   })
   .delete((req, res) => {
-    //todo
-    return res.json({ status: "pending" });
+    const id = Number(req.params.id);
+    const indexOfObjectToDelete = users.findIndex((user) => user.id === id);
+    if(indexOfObjectToDelete!=-1){
+      users.splice(indexOfObjectToDelete,1);
+    }
+    fs.writeFile("./MOCK_DATA.json",JSON.stringify(users), (err, data) =>{
+      return res.json({ status: "succssfully deleted" });
+    })
   });
 
 app.post("/api/users", (req, res) => {
