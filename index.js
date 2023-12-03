@@ -1,8 +1,11 @@
 const express = require("express");
 const users = require("./MOCK_DATA.json");
+const fs=require("fs");
 const app = express();
 
 //setuing up routes here only
+
+app.use(express.urlencoded({ extended: false}));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -40,8 +43,14 @@ app
   });
 
 app.post("/api/users", (req, res) => {
-  //todo
-  return res.json({ status: "pending" });
+  const body=req.body;
+  users.push({...body,id:users.length+1});
+  fs.writeFile("./MOCK_DATA.json",JSON.stringify(users),(err,data)=>{
+    if(err){
+      console.log(err); 
+    }
+    return res.json({status:"success",id:users.length});  
+  })
 });
 
 app.listen(8002, () => {
