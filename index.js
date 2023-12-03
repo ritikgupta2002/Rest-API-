@@ -1,11 +1,11 @@
 const express = require("express");
 const users = require("./MOCK_DATA.json");
-const fs=require("fs");
+const fs = require("fs");
 const app = express();
 
 //setuing up routes here only
 
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -32,9 +32,13 @@ app
     return res.json(user);
   })
   .patch((req, res) => {
-    //todo
-    return res.json({
-      status: "pending",
+    const id = Number(req.params.id);
+    const jobtitle = req.body.job_title;
+    const user = users.find((user) => user.id === id);
+    user.job_title = jobtitle;
+    users.push({ ...user });
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+      return res.json({ status: "success" });
     });
   })
   .delete((req, res) => {
@@ -43,14 +47,14 @@ app
   });
 
 app.post("/api/users", (req, res) => {
-  const body=req.body;
-  users.push({...body,id:users.length+1});
-  fs.writeFile("./MOCK_DATA.json",JSON.stringify(users),(err,data)=>{
-    if(err){
-      console.log(err); 
+  const body = req.body;
+  users.push({ ...body, id: users.length + 1 });
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+    if (err) {
+      console.log(err);
     }
-    return res.json({status:"success",id:users.length});  
-  })
+    return res.json({ status: "success", id: users.length });
+  });
 });
 
 app.listen(8002, () => {
