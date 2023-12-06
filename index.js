@@ -21,6 +21,7 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/api/users", (req, res) => {
+  res.setHeader("X-MyName","Ritik Gupta");
   return res.json(users);
 });
 
@@ -58,7 +59,7 @@ app.post("/api/users", (req, res) => {
   fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
     if (err) {
       console.log(err);
-    }
+    } 
     return res.json({ status: "success", id: users.length });
   });
 });
